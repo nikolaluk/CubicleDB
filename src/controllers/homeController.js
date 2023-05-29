@@ -21,10 +21,14 @@ router.get('/about',(req,res) => {
     res.render('about');
 });
 
-router.get('/details/:id',(req,res) => {
-    cubeManager.getCubeById(req.params.id, (cube) => {
-        res.render('details',cube);
-    });
+router.get('/details/:id',async (req,res) => {
+    const cube = await cubeManager.getCubeById(req.params.id);
+
+    if(!cube){
+        return res.redirect('/404');
+    }
+
+    res.render('details',cube);
 });
 
 router.get('*',(req,res) => {

@@ -25,16 +25,8 @@ const getAllCubes = function(search,from,to,callback){
     });
 }
 
-const getCubeById = function(id,callback){
-    fs.readFile(path.resolve(__dirname,'../data/cubes.json'),(err,data) => {
-        if(err){
-            throw err;
-        }
-    
-        let cube = JSON.parse(data).filter(x => x.id == id)[0];;
-
-        callback(cube);
-    });
+const getCubeById = function(id){
+    return Cube.findById(id).lean();
 }
 
 const createNewCube = async function(name,description,imageUrl,difficultyLevel){

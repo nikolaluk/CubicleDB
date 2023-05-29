@@ -16,7 +16,7 @@ expressConfig(app);
 handlebarsConfig(app);
 dbConfig()
     .then(() => console.log("DB connected successfully"))
-    .catch((err) => console.log('DB error', err));
+    .catch((err) => console.log('DB error', err.message));
 
 //Routes
 app.use(homeController);
