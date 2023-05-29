@@ -13,9 +13,11 @@ const app = express();
 const port = 5000;
 
 //Config
-dbConfig();
 expressConfig(app);
 handlebarsConfig(app);
+dbConfig()
+    .then(() => console.log("DB connected successfully"))
+    .catch((err) => console.log('DB error', err));
 
 //Routes
 app.use(homeController);
