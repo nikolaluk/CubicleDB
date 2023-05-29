@@ -33,9 +33,9 @@ router.get('*',(req,res) => {
 
 
 //POST
-router.post('/create',(req,res) => {
+router.post('/create',async (req,res) => {
     const {name,description,imageUrl,difficultyLevel} = req.body;
-    cubeManager.createNewCube(name,description,imageUrl,difficultyLevel);
+    await cubeManager.createNewCube(name,description,imageUrl,difficultyLevel);
     res.redirect('/');
 });
 

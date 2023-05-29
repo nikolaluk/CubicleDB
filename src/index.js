@@ -1,6 +1,5 @@
 //System modules
 const express = require('express');
-const mongoose = require('mongoose');
 
 //Modules
 const expressConfig = require('./config/expressConfig');
