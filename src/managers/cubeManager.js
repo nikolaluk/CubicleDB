@@ -24,9 +24,7 @@ const getById = function(id){
 const create = async function(name,description,imageUrl,difficultyLevel){
     const cube = new Cube({name, description, imageUrl, difficultyLevel});
 
-    await cube.save();
-
-    return cube;
+    return cube.save();
 }
 
 exports.getAll = getAll;

@@ -9,9 +9,7 @@ const getAll = async function(){
 const create = async function(name,description,imageUrl){
     const accessory = new Accessory({name,description,imageUrl});
 
-    await accessory.save();
-
-    return accessory;
+    return accessory.save();
 }
 
 exports.getAll = getAll;
