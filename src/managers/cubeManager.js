@@ -1,6 +1,6 @@
 const Cube = require('../models/Cube');
 
-const getAllCubes = async function(search,from,to){
+const getAll = async function(search,from,to){
     let cubes = await Cube.find().lean();
 
     if(search){
@@ -16,12 +16,12 @@ const getAllCubes = async function(search,from,to){
     return cubes;
 }
 
-const getCubeById = function(id){
+const getById = function(id){
     return Cube.findById(id).lean();
 } 
 
 
-const createNewCube = async function(name,description,imageUrl,difficultyLevel){
+const create = async function(name,description,imageUrl,difficultyLevel){
     const cube = new Cube({name, description, imageUrl, difficultyLevel});
 
     await cube.save();
@@ -29,6 +29,6 @@ const createNewCube = async function(name,description,imageUrl,difficultyLevel){
     return cube;
 }
 
-exports.getAllCubes = getAllCubes;
-exports.getCubeById = getCubeById;
-exports.createNewCube = createNewCube;
+exports.getAll = getAll;
+exports.getById = getById;
+exports.create = create;
