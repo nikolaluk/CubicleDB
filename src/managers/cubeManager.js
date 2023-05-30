@@ -17,7 +17,7 @@ const getAll = async function(search,from,to){
 }
 
 const getById = function(id){
-    return Cube.findById(id).lean();
+    return Cube.findById(id).populate('accessories').lean();
 } 
 
 
@@ -29,7 +29,6 @@ const create = async function(name,description,imageUrl,difficultyLevel){
 
 const attachAccessory = function(cubeId, accessory){
     return Cube.findByIdAndUpdate(cubeId, {$push: {accessories:accessory}});
-
 }
 
 exports.getAll = getAll;
