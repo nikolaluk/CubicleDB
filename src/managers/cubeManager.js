@@ -27,6 +27,12 @@ const create = async function(name,description,imageUrl,difficultyLevel){
     return cube.save();
 }
 
+const attachAccessory = function(cubeId, accessory){
+    return Cube.findByIdAndUpdate(cubeId, {$push: {accessories:accessory}});
+
+}
+
 exports.getAll = getAll;
 exports.getById = getById;
 exports.create = create;
+exports.attachAccessory = attachAccessory;

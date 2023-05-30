@@ -43,4 +43,13 @@ router.post('/create',async (req,res) => {
     res.redirect('/');
 });
 
+router.post('/:id/accessories', async (req,res) => {
+    const {accessory} = req.body;
+    const cubeId = req.params.id;
+
+    await cubeManager.attachAccessory(cubeId, accessory);
+
+    res.redirect(`/${cubeId}/details`);
+});
+
 module.exports = router;
