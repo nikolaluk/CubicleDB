@@ -31,7 +31,7 @@ router.get('/:id/details', async (req,res) => {
 
 router.get('/:id/accessories', async (req,res) => {
     const cube = await cubeManager.getById(req.params.id);
-    const accessories = await accessoryManager.getAll();
+    const accessories = await accessoryManager.getOthers(cube.accessories);
 
     res.render('accessory/attach',{cube,accessories});
 });
