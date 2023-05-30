@@ -28,11 +28,6 @@ router.get('/details/:id', async (req,res) => {
     res.render('details',{cube});
 });
 
-router.get('*',(req,res) => {
-    res.render('404');
-});
-
-
 //POST
 router.post('/create',async (req,res) => {
     const {name,description,imageUrl,difficultyLevel} = req.body;
