@@ -28,6 +28,10 @@ router.get('/details/:id', async (req,res) => {
     res.render('details',{cube});
 });
 
+router.get('/accessories/:id', (req,res) => {
+    res.render('accessory/attach');
+});
+
 //POST
 router.post('/create',async (req,res) => {
     const {name,description,imageUrl,difficultyLevel} = req.body;
