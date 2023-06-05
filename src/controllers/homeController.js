@@ -19,23 +19,6 @@ router.get('/about',(req,res) => {
     res.render('about');
 });
 
-router.get('/:id/details', async (req,res) => {
-    const cube = await cubeManager.getById(req.params.id);
-
-    if(!cube){
-        return res.redirect('/404');
-    }
-
-    res.render('details',{cube});
-});
-
-router.get('/:id/accessories', async (req,res) => {
-    const cube = await cubeManager.getById(req.params.id);
-    const accessories = await accessoryManager.getOthers(cube.accessories);
-
-    res.render('accessory/attach',{cube,accessories});
-});
-
 //POST
 router.post('/create',async (req,res) => {
     const {name,description,imageUrl,difficultyLevel} = req.body;
