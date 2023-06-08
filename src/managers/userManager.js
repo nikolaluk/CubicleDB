@@ -19,11 +19,21 @@ const register = async function(username,password,repeatPassword) {
     return user.save();
 }
 
-const getAll = async function(){
-    let users = await User.find().lean();
+const login = async function(username,password){
+    const user = await User.findOne({username});
 
-    return users;
+    if(!user){
+        throw new Error('Username or password are incorrect');
+    }
+
+    const isValid = await bcrypt.compare(password, user.password);
+
+    if(!isValid){
+        throw new Error('Username or password are incorrect');
+    }
+
+    return user;
 }
 
 exports.register = register;
-exports.getAll = getAll;
+exports.login = login;
