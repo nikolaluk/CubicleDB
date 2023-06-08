@@ -10,7 +10,7 @@ const getOthers = function(accessoryIds){
     return Accessory.find({_id: {$nin: accessoryIds}}).lean();
 }
 
-const create = async function(name,description,imageUrl){
+const create = function(name,description,imageUrl){
     const accessory = new Accessory({name,description,imageUrl});
 
     return accessory.save();
