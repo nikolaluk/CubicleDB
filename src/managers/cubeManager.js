@@ -1,37 +1,46 @@
 const Cube = require('../models/Cube');
 
-const getAll = async function(search,from,to){
+const getAll = async function (search, from, to) {
     let cubes = await Cube.find().lean();
 
-    if(search){
+    if (search) {
         cubes = cubes.filter(cube => cube.name.toLowerCase().includes(search.toLowerCase()));
     }
-    if(from){
+    if (from) {
         cubes = cubes.filter(cube => cube.difficultyLevel >= from);
     }
-    if(to){
+    if (to) {
         cubes = cubes.filter(cube => cube.difficultyLevel <= to);
     }
 
     return cubes;
 }
 
-const getById = function(id){
+const getById = function (id) {
     return Cube.findById(id).populate('accessories').lean();
-} 
+}
 
+const updateById = function (id, name, description, imageUrl, difficultyLevel) {
+    return Cube.findByIdAndUpdate(id, { name, description, imageUrl, difficultyLevel });
+}
 
-const create = function(name,description,imageUrl,difficultyLevel,owner){
-    const cube = new Cube({name, description, imageUrl, difficultyLevel, owner});
+const create = function (name, description, imageUrl, difficultyLevel, owner) {
+    const cube = new Cube({ name, description, imageUrl, difficultyLevel, owner });
 
     return cube.save();
 }
 
-const attachAccessory = function(cubeId, accessory){
-    return Cube.findByIdAndUpdate(cubeId, {$push: {accessories:accessory}});
+const deleteById = function (id){
+    return Cube.findByIdAndDelete(id);
+}
+
+const attachAccessory = function (cubeId, accessory) {
+    return Cube.findByIdAndUpdate(cubeId, { $push: { accessories: accessory } });
 }
 
 exports.getAll = getAll;
 exports.getById = getById;
+exports.updateById = updateById;
 exports.create = create;
+exports.deleteById = deleteById;
 exports.attachAccessory = attachAccessory;

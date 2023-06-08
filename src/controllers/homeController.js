@@ -11,7 +11,7 @@ router.get('/', async (req,res) => {
 });
 
 router.get('/create', (req,res) => {
-    res.render('create');
+    res.render('cube/create');
 });
 
 router.get('/about',(req,res) => {

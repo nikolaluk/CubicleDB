@@ -10,7 +10,7 @@ router.get('/:id/details', async (req, res) => {
         return res.redirect('/404');
     }
 
-    res.render('details', { cube });
+    res.render('cube/details', { cube });
 });
 
 router.get('/:id/accessories', async (req, res) => {
@@ -19,6 +19,18 @@ router.get('/:id/accessories', async (req, res) => {
 
     res.render('accessory/attach', { cube, accessories });
 });
+
+router.get('/:id/edit', async (req,res) => {
+    const cube = await cubeManager.getById(req.params.id);
+
+    res.render('cube/edit', {cube});
+})
+
+router.get('/:id/delete', async (req,res) => {
+    const cube = await cubeManager.getById(req.params.id);
+
+    res.render('cube/delete', {cube});
+})
 
 //POST
 router.post('/:id/accessories', async (req,res) => {
@@ -30,5 +42,18 @@ router.post('/:id/accessories', async (req,res) => {
     res.redirect(`/cube/${cubeId}/details`);
 });
 
+router.post('/:id/edit', async (req,res) => {
+    const {name,description,imageUrl,difficultyLevel} = req.body;
+    const cubeId = req.params.id;
 
+    await cubeManager.updateById(cubeId,name,description,imageUrl,difficultyLevel);
+
+    res.redirect(`/cube/${cubeId}/details`);
+});
+
+router.post('/:id/delete', async (req,res) => {
+    await cubeManager.deleteById(req.params.id);
+
+    res.redirect('/');
+})
 module.exports = router;
