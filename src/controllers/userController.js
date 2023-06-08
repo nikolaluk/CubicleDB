@@ -12,7 +12,7 @@ router.post('/register', async (req, res) => {
         await userManager.register(username, password, repeatPassword);
         res.redirect('/user/login');
     } catch (err) {
-        console.log(err);
+        console.log(err.message);
         res.redirect('/user/register');
     }
 });
@@ -23,10 +23,16 @@ router.get('/login', (req, res) => {
 
 router.post('/login',async (req,res) => {
     const {username,password} = req.body;
+    try{
+        const token = await userManager.login(username,password);
 
-    await userManager.login(username,password);
+        res.cookie('auth',token, {httpOnly:true});
 
-    res.redirect('/');
+        res.redirect('/');
+    } catch(err){
+        console.log(err.message);
+        res.redirect('/user/login');
+    }
 });
 
 module.exports = router;

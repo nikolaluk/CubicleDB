@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager'); 
-const accessoryManager = require('../managers/accessoryManager');
 
 //GET
 router.get('/', async (req,res) => {
@@ -12,6 +11,7 @@ router.get('/', async (req,res) => {
 });
 
 router.get('/create', (req,res) => {
+    console.log(req.user);
     res.render('create');
 });
 
