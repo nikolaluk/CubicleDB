@@ -21,8 +21,8 @@ const getById = function(id){
 } 
 
 
-const create = function(name,description,imageUrl,difficultyLevel){
-    const cube = new Cube({name, description, imageUrl, difficultyLevel});
+const create = function(name,description,imageUrl,difficultyLevel,owner){
+    const cube = new Cube({name, description, imageUrl, difficultyLevel, owner});
 
     return cube.save();
 }

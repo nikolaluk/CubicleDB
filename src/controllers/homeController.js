@@ -11,7 +11,6 @@ router.get('/', async (req,res) => {
 });
 
 router.get('/create', (req,res) => {
-    console.log(req.user);
     res.render('create');
 });
 
@@ -22,7 +21,8 @@ router.get('/about',(req,res) => {
 //POST
 router.post('/create',async (req,res) => {
     const {name,description,imageUrl,difficultyLevel} = req.body;
-    await cubeManager.create(name,description,imageUrl,difficultyLevel);
+    const owner = req.user;
+    await cubeManager.create(name,description,imageUrl,difficultyLevel,owner);
     res.redirect('/');
 });
 
