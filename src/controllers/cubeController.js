@@ -2,6 +2,7 @@ const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 const accessoryManager = require('../managers/accessoryManager');
 
+//GET
 router.get('/:id/details', async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
 
@@ -19,6 +20,7 @@ router.get('/:id/accessories', async (req, res) => {
     res.render('accessory/attach', { cube, accessories });
 });
 
+//POST
 router.post('/:id/accessories', async (req,res) => {
     const {accessory} = req.body;
     const cubeId = req.params.id;
