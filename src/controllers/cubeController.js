@@ -2,6 +2,7 @@ const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 const accessoryManager = require('../managers/accessoryManager');
 const { generateOptions } = require('../config/contants');
+const { isAuth } = require('../middlewares/auth');
 
 //GET
 router.get('/:id/details', async (req, res) => {
@@ -11,10 +12,14 @@ router.get('/:id/details', async (req, res) => {
         return res.redirect('/404');
     }
 
-    res.render('cube/details', { cube });
+    const isOwner = cube.owner == req.user?._id;
+    console.log(cube.owner);
+    console.log(isOwner);
+
+    res.render('cube/details', { cube, isOwner });
 });
 
-router.get('/:id/accessories', async (req, res) => {
+router.get('/:id/accessories',isAuth, async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
     const accessories = await accessoryManager.getOthers(cube.accessories);
 
@@ -22,7 +27,7 @@ router.get('/:id/accessories', async (req, res) => {
 });
 
 
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit',isAuth, async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
 
     const options = generateOptions(cube.difficultyLevel);
@@ -30,7 +35,7 @@ router.get('/:id/edit', async (req, res) => {
     res.render('cube/edit', { cube,options });
 })
 
-router.get('/:id/delete', async (req, res) => {
+router.get('/:id/delete',isAuth, async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
 
     const options = generateOptions(cube.difficultyLevel);
@@ -39,7 +44,7 @@ router.get('/:id/delete', async (req, res) => {
 })
 
 //POST
-router.post('/:id/accessories', async (req, res) => {
+router.post('/:id/accessories',isAuth, async (req, res) => {
     const { accessory } = req.body;
     const cubeId = req.params.id;
 
@@ -48,7 +53,7 @@ router.post('/:id/accessories', async (req, res) => {
     res.redirect(`/cube/${cubeId}/details`);
 });
 
-router.post('/:id/edit', async (req, res) => {
+router.post('/:id/edit',isAuth, async (req, res) => {
     const cubeData = req.body;
     const cubeId = req.params.id;
 
@@ -57,7 +62,7 @@ router.post('/:id/edit', async (req, res) => {
     res.redirect(`/cube/${cubeId}/details`);
 });
 
-router.post('/:id/delete', async (req, res) => {
+router.post('/:id/delete',isAuth, async (req, res) => {
     await cubeManager.deleteById(req.params.id);
 
     res.redirect('/');

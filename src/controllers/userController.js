@@ -35,4 +35,10 @@ router.post('/login',async (req,res) => {
     }
 });
 
+router.get('/logout', async (req,res) => {
+    res.clearCookie('auth');
+
+    res.redirect('/');
+});
+
 module.exports = router;

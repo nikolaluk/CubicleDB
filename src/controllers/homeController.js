@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager'); 
+const { isAuth } = require('../middlewares/auth');
 
 //GET
 router.get('/', async (req,res) => {
@@ -10,7 +11,7 @@ router.get('/', async (req,res) => {
     res.render('index',{cubes,search,from,to});
 });
 
-router.get('/create', (req,res) => {
+router.get('/create',isAuth, (req,res) => {
     res.render('cube/create');
 });
 
@@ -19,20 +20,11 @@ router.get('/about',(req,res) => {
 });
 
 //POST
-router.post('/create',async (req,res) => {
+router.post('/create',isAuth,async (req,res) => {
     const {name,description,imageUrl,difficultyLevel} = req.body;
     const owner = req.user;
     await cubeManager.create(name,description,imageUrl,difficultyLevel,owner);
     res.redirect('/');
-});
-
-router.post('/:id/accessories', async (req,res) => {
-    const {accessory} = req.body;
-    const cubeId = req.params.id;
-
-    await cubeManager.attachAccessory(cubeId, accessory);
-
-    res.redirect(`/${cubeId}/details`);
 });
 
 module.exports = router;
