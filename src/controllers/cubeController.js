@@ -22,6 +22,9 @@ router.get('/:id/details', async (req, res) => {
 router.get('/:id/accessories',isAuth, async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
     const accessories = await accessoryManager.getOthers(cube.accessories);
+    if(cube.owner.toString() !== req.user._id){
+        res.redirect('/404');
+    }
 
     res.render('accessory/attach', { cube, accessories });
 });
@@ -29,16 +32,22 @@ router.get('/:id/accessories',isAuth, async (req, res) => {
 
 router.get('/:id/edit',isAuth, async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
-
     const options = generateOptions(cube.difficultyLevel);
+
+    if(cube.owner.toString() !== req.user._id){
+        res.redirect('/404');
+    }
 
     res.render('cube/edit', { cube,options });
 })
 
 router.get('/:id/delete',isAuth, async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
-
     const options = generateOptions(cube.difficultyLevel);
+
+    if(cube.owner.toString() !== req.user._id){
+        res.redirect('/404');
+    }
 
     res.render('cube/delete', { cube,options });
 })
@@ -47,6 +56,10 @@ router.get('/:id/delete',isAuth, async (req, res) => {
 router.post('/:id/accessories',isAuth, async (req, res) => {
     const { accessory } = req.body;
     const cubeId = req.params.id;
+
+    if(cube.owner.toString() !== req.user._id){
+        res.redirect('/404');
+    }
 
     await cubeManager.attachAccessory(cubeId, accessory);
 
@@ -57,12 +70,20 @@ router.post('/:id/edit',isAuth, async (req, res) => {
     const cubeData = req.body;
     const cubeId = req.params.id;
 
+    if(cube.owner.toString() !== req.user._id){
+        res.redirect('/404');
+    }
+
     await cubeManager.updateById(cubeId, cubeData);
 
     res.redirect(`/cube/${cubeId}/details`);
 });
 
 router.post('/:id/delete',isAuth, async (req, res) => {
+    if(cube.owner.toString() !== req.user._id){
+        res.redirect('/404');
+    }
+
     await cubeManager.deleteById(req.params.id);
 
     res.redirect('/');
