@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const cubeManager = require('../managers/cubeManager');
 const accessoryManager = require('../managers/accessoryManager');
+const { generateOptions } = require('../config/contants');
 
 //GET
 router.get('/:id/details', async (req, res) => {
@@ -20,21 +21,26 @@ router.get('/:id/accessories', async (req, res) => {
     res.render('accessory/attach', { cube, accessories });
 });
 
-router.get('/:id/edit', async (req,res) => {
+
+router.get('/:id/edit', async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
 
-    res.render('cube/edit', {cube});
+    const options = generateOptions(cube.difficultyLevel);
+
+    res.render('cube/edit', { cube,options });
 })
 
-router.get('/:id/delete', async (req,res) => {
+router.get('/:id/delete', async (req, res) => {
     const cube = await cubeManager.getById(req.params.id);
 
-    res.render('cube/delete', {cube});
+    const options = generateOptions(cube.difficultyLevel);
+
+    res.render('cube/delete', { cube,options });
 })
 
 //POST
-router.post('/:id/accessories', async (req,res) => {
-    const {accessory} = req.body;
+router.post('/:id/accessories', async (req, res) => {
+    const { accessory } = req.body;
     const cubeId = req.params.id;
 
     await cubeManager.attachAccessory(cubeId, accessory);
@@ -42,16 +48,16 @@ router.post('/:id/accessories', async (req,res) => {
     res.redirect(`/cube/${cubeId}/details`);
 });
 
-router.post('/:id/edit', async (req,res) => {
-    const {name,description,imageUrl,difficultyLevel} = req.body;
+router.post('/:id/edit', async (req, res) => {
+    const cubeData = req.body;
     const cubeId = req.params.id;
 
-    await cubeManager.updateById(cubeId,name,description,imageUrl,difficultyLevel);
+    await cubeManager.updateById(cubeId, cubeData);
 
     res.redirect(`/cube/${cubeId}/details`);
 });
 
-router.post('/:id/delete', async (req,res) => {
+router.post('/:id/delete', async (req, res) => {
     await cubeManager.deleteById(req.params.id);
 
     res.redirect('/');

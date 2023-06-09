@@ -20,8 +20,8 @@ const getById = function (id) {
     return Cube.findById(id).populate('accessories').lean();
 }
 
-const updateById = function (id, name, description, imageUrl, difficultyLevel) {
-    return Cube.findByIdAndUpdate(id, { name, description, imageUrl, difficultyLevel });
+const updateById = function (id, cubeData) {
+    return Cube.findByIdAndUpdate(id, cubeData);
 }
 
 const create = function (name, description, imageUrl, difficultyLevel, owner) {
